@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<script src="/resources/testharness.js"></script>
-<script src="/resources/testharnessreport.js"></script>
-<script src="/resources/testdriver.js"></script>
-<script src="/resources/testdriver-vendor.js"></script>
-<script src="/bluetooth/resources/bluetooth-test.js"></script>
-<script src="/bluetooth/resources/bluetooth-fake-devices.js"></script>
-<script>
+// META: script=/resources/testharness.js
+// META: script=/resources/testharnessreport.js
+// META: script=/resources/testdriver.js
+// META: script=/resources/testdriver-vendor.js
+// META: script=/bluetooth/resources/bluetooth-test.js
+// META: script=/bluetooth/resources/bluetooth-fake-devices.js
 'use strict';
 const test_desc = 'Matches a filter if all present members match.';
 let matching_services = [health_thermometer.uuid];
@@ -74,19 +72,18 @@ let test_specs = [
 ];
 
 bluetooth_test(
-    () => setUpHealthThermometerDevice().then(() => {
-      let test_promises = Promise.resolve();
-      test_specs.forEach(args => {
-        test_promises =
-            test_promises.then(() => requestDeviceWithTrustedClick(args))
-                .then(device => {
-                  // We always have access to the services in matching_services
-                  // because we include them in a filter or in optionalServices.
-                  assert_equals(device.name, matching_name);
-                  assert_true(device.name.startsWith(matching_namePrefix));
-                });
-      });
-      return test_promises;
-    }),
-    test_desc);
-</script>
+  () => setUpHealthThermometerDevice().then(() => {
+    let test_promises = Promise.resolve();
+    test_specs.forEach(args => {
+      test_promises =
+        test_promises.then(() => requestDeviceWithTrustedClick(args))
+          .then(device => {
+            // We always have access to the services in matching_services
+            // because we include them in a filter or in optionalServices.
+            assert_equals(device.name, matching_name);
+            assert_true(device.name.startsWith(matching_namePrefix));
+          });
+    });
+    return test_promises;
+  }),
+  test_desc);
